@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentService.Server", "AssignmentService.Server\AssignmentService.Server.csproj", "{34D6C2D1-287F-4245-9CD9-81FE082BC142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentService.Tests", "AssignmentService.Tests\AssignmentService.Tests.csproj", "{959F557C-D684-4ADF-85EE-1F390BF75EDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34D6C2D1-287F-4245-9CD9-81FE082BC142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D6C2D1-287F-4245-9CD9-81FE082BC142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D6C2D1-287F-4245-9CD9-81FE082BC142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D6C2D1-287F-4245-9CD9-81FE082BC142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{959F557C-D684-4ADF-85EE-1F390BF75EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{959F557C-D684-4ADF-85EE-1F390BF75EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{959F557C-D684-4ADF-85EE-1F390BF75EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{959F557C-D684-4ADF-85EE-1F390BF75EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
