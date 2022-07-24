@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: visma-assignment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment-service
+  namespace: visma-assignment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assignment-service
+  template:
+    metadata:
+      labels:
+        app: assignment-service
+    spec:
+      containers:
+        - name: assignment-service
+          env:
+            - name: ASS_ServiceConfig__DummyPdfOrPngServiceRoot
+              value: http://dummy-pdf-or-png:3000/
+          image: assignment-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-pdf-or-png-service
+  namespace: visma-assignment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy-pdf-or-png
+  template:
+    metadata:
+      labels:
+        app: dummy-pdf-or-png
+    spec:
+      containers:
+        - name: dummy-pdf-or-png
+          image: dummy-pdf-or-png:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assignment-service-entrypoint
+  namespace: visma-assignment
+spec:
+  type: LoadBalancer
+  selector:
+    app: assignment-service
+  ports:
+    - port: 3020
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy-pdf-or-png
+  namespace: visma-assignment
+spec:
+  selector:
+    app: dummy-pdf-or-png
+  ports:
+    - port: 3000
+      protocol: TCP

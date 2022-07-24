@@ -4,6 +4,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentService.Server", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentService.Tests", "AssignmentService.Tests\AssignmentService.Tests.csproj", "{959F557C-D684-4ADF-85EE-1F390BF75EDF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{B01D7D91-EEF0-4FB9-8CA0-0DBD49C34667}"
+	ProjectSection(SolutionItems) = preProject
+		..\.docker\docker-compose.yml = ..\.docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".k8", ".k8", "{265F078C-DABB-4682-9269-3F3DB34FF3AC}"
+	ProjectSection(SolutionItems) = preProject
+		..\.k8\assignment-all-in-one.yaml = ..\.k8\assignment-all-in-one.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
