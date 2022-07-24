@@ -1,4 +1,6 @@
-﻿namespace AssignmentService.Server;
+﻿using AssignmentService.Server.Exceptions;
+
+namespace AssignmentService.Server;
 
 public class PdfService : IPdfService
 {
@@ -19,6 +21,11 @@ public class PdfService : IPdfService
             var response = await dummyPdfClient.GetAsync("/");
             var contentType = response.Content.Headers.ContentType?.ToString();
 
+            if (string.IsNullOrEmpty(contentType))
+            {
+                throw new InvalidContentTypeException();
+            }
+
             _logger.LogInformation("Received {ContentType} from {Client}", contentType,
                 ServiceConfigOptions.PdfClientName);
             var fileStream = await response.Content.ReadAsStreamAsync();
@@ -37,6 +44,8 @@ public class PdfService : IPdfService
                     break;
             }
 
+            PrometheusMetrics.ServedContentTypes.WithLabels(contentType).Inc();
+
             return new PdfOrPngResult
             {
                 Stream = fileStream,
@@ -45,14 +54,19 @@ public class PdfService : IPdfService
         }
         catch (Exception e)
         {
-            if (e is CorruptedResponseException)
+            switch (e)
             {
-                _logger.LogWarning("Received invalid PDF from {Client}", ServiceConfigOptions.PdfClientName);
-            }
-            else
-            {
-                _logger.LogError(e, "Failed to load dummy pdf/png by id '{Id}' using {Client} client", id,
-                    ServiceConfigOptions.PdfClientName);
+                case CorruptedResponseException:
+                    PrometheusMetrics.CorruptedPdfs.Inc();
+                    _logger.LogWarning("Received invalid PDF from {Client}", ServiceConfigOptions.PdfClientName);
+                    break;
+                case InvalidContentTypeException:
+                    _logger.LogError(e, "Received empty content type header from {Client}", ServiceConfigOptions.PdfClientName);
+                    break;
+                default:
+                    _logger.LogError(e, "Failed to load dummy pdf/png by id '{Id}' using {Client} client", id,
+                        ServiceConfigOptions.PdfClientName);
+                    break;
             }
 
             throw;
