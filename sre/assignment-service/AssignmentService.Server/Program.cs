@@ -3,7 +3,6 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
 
-const string dummyPdfClientName = "DummyPdfOrPng";
 var config = new ServiceConfigOptions();
 var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(10);
 
@@ -14,48 +13,51 @@ builder.Configuration
     .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables();
 builder.Logging.AddConsole();
-
-var logger = builder.Logging.Services.BuildServiceProvider().GetService<ILogger<Program>>();
+using var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder.AddConsole());
+var logger = loggerFactory.CreateLogger<Program>();
 
 builder.Services
     .AddOptions<ServiceConfigOptions>()
     .Bind(builder.Configuration.GetSection(ServiceConfigOptions.ServiceConfig));
+
+builder.Services.AddTransient<IPdfService, PdfService>();
 
 builder.Configuration.Bind(ServiceConfigOptions.ServiceConfig, config);
 
 var retryPolicy = HttpPolicyExtensions
     .HandleTransientHttpError()
     .Or<TimeoutRejectedException>()
-    .Or<CorruptedResponseException>()
-    .RetryAsync(config.TransientHttpErrorRetryCount, onRetry: (result, i, context) =>
-    {
-        logger.LogWarning("Transient HTTP error: {Error}. Attempt {attempt}/{maxAttempts}...", result.Exception.Message, i, config.TransientHttpErrorRetryCount);
-    });
+    .RetryAsync(config.TransientHttpErrorRetryCount,
+        onRetry: (result, attempt) =>
+        {
+            logger.LogWarning("Transient HTTP error: {Error}. Attempt {Attempt}/{MaxAttempts}...",
+                result.Exception.Message, attempt, config.TransientHttpErrorRetryCount);
+        });
 
 builder
     .Services
-    .AddHttpClient(dummyPdfClientName, c => c.BaseAddress = new Uri(config.DummyPdfOrPngServiceRoot))
+    .AddHttpClient(ServiceConfigOptions.PdfClientName, c => c.BaseAddress = new Uri(config.DummyPdfOrPngServiceRoot))
     .AddPolicyHandler(retryPolicy)
     .AddPolicyHandler(timeoutPolicy);
 
 var app = builder.Build();
-app.MapGet("/{id}", async (int id, IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory) =>
+app.MapGet("/{id}", async (int id, IPdfService pdfService) =>
 {
-    var logger = loggerFactory.CreateLogger(dummyPdfClientName);
     try
     {
-        var dummyPdfClient = httpClientFactory.CreateClient(dummyPdfClientName);
-        var pdfResponse = await dummyPdfClient.GetAsync("/");
-        var contentType = pdfResponse.Content.Headers.ContentType?.ToString();
-
-        logger.LogInformation("Received {ContentType} from {Client}", contentType, dummyPdfClientName);
-
-        return Results.Stream(await pdfResponse.Content.ReadAsStreamAsync(),
-            pdfResponse.Content.Headers.ContentType?.ToString());
+        var policyResult = await Policy.Handle<CorruptedResponseException>()
+            .RetryAsync(config.CorruptedPdfErrorRetryCount,
+                onRetry: (_, attempt) =>
+                {
+                    logger.LogWarning("Received corrupted PDF. Attempt {Attempt}/{MaxAttempts}...", attempt,
+                        config.CorruptedPdfErrorRetryCount);
+                })
+            .ExecuteAndCaptureAsync(async () => await pdfService.GetPdfOrPngStream(id));
+        
+        return Results.Stream(policyResult.Result.Stream, policyResult.Result.ContentType);
     }
-    catch (Exception e)
+    catch
     {
-        logger.LogError(e, "Failed to load dummy pdf/png by id '{Id}' using {Client} client", id, dummyPdfClientName);
         return Results.Problem("Oops, something went wrong. Please try again later");
     }
 });
