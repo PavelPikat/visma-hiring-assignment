@@ -1,0 +1,28 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "e-conomic assignment docs",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev sre/docs",
+    "docs:build": "vuepress build sre/docs --dest docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PavelPikat/visma-hiring-assignment"
+  },
+  "keywords": [
+    "docs"
+  ],
+  "author": "Pavel Pikat",
+  "license": "MIT",
+  "dependencies": {
+    "vuepress": "^1.9.7",
+    "vuepress-theme-default-prefers-color-scheme": "^2.0.0"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-active-header-links": "^1.9.7"
+  }
+}

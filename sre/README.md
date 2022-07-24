@@ -1,3 +1,6 @@
+# TLDR; Solution
+Jump straight to running Pavel's solution [here](./assignment-service/README.md).
+
 # Recruitment assignment for Site Reliability Engineer
 
 This task is intended for candidates applying for an SRE position at the Visma 
