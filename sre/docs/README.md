@@ -2,8 +2,8 @@
 home: true
 heroText: TODO
 tagline: TODO tagline
-actionText: Get Started →
-actionLink: /get-started/
+actionText: Getting Started →
+actionLink: /getting-started/
 features:
 - title: Todo
   details: Todo

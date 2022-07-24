@@ -21,7 +21,7 @@
     },
     searchPlaceholder: 'Search docs...',
     lastUpdated: 'Last updated',
-    repo: 'https://github.com/PavelPikat/visma-hiring-assignment',
+    repo: 'https://github.com/PavelPikat/visma-hiring-assignment/tree/feature/pavel-solution',
     repoLabel: 'GitHub'
   },
   smoothScroll: true,
