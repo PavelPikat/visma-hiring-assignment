@@ -31,7 +31,7 @@ resource "azuredevops_serviceendpoint_azurecr" "sre" {
 resource "azuredevops_serviceendpoint_kubernetes" "sre" {
   project_id            = data.azuredevops_project.economic.id
   service_endpoint_name = "e-conomic AKS"
-  apiserver_url         = var.aks_api_url
+  apiserver_url         = "https://${var.aks_api_url}"
   authorization_type    = "AzureSubscription"
 
   azure_subscription {
