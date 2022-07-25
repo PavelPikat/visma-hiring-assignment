@@ -1,5 +1,5 @@
 # TLDR; Solution
-Jump straight to running Pavel's solution [here](./assignment-service/README.md).
+Jump straight to running Pavel's solution [here](./docs/README.md).
 
 # Recruitment assignment for Site Reliability Engineer
 
