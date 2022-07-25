@@ -7,6 +7,10 @@
   }
 }
 
+provider "azuredevops" {
+  org_service_url = "https://dev.azure.com/pikatpavel/"
+}
+
 data "azuredevops_project" "economic" {
   name = "e-conomic"
 }
