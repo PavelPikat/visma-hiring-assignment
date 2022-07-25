@@ -25,7 +25,7 @@ spec:
           env:
             - name: ASS_ServiceConfig__DummyPdfOrPngServiceRoot
               value: http://dummy-pdf-or-png:3000/
-          image: sreassignmentacr.azurecr.io/assignment/assignment-service:latest
+          image: sreassignmentacr.azurecr.io/assignment-service:latest
           resources:
             requests:
               cpu: 100m
@@ -67,7 +67,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: dummy-pdf-or-png
-          image: sreassignmentacr.azurecr.io/assignment/dummy-pdf-or-png:latest
+          image: sreassignmentacr.azurecr.io/dummy-pdf-or-png:latest
           resources:
             requests:
               cpu: 100m
