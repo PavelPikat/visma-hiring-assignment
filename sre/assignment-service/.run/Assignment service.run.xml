@@ -4,7 +4,6 @@
       <settings>
         <option name="imageTag" value="assignment-service" />
         <option name="containerName" value="assignment-service" />
-        <option name="contextFolderPath" value="." />
         <option name="portBindings">
           <list>
             <DockerPortBindingImpl>
@@ -13,7 +12,7 @@
             </DockerPortBindingImpl>
           </list>
         </option>
-        <option name="sourceFilePath" value="AssignmentService.Server/Dockerfile" />
+        <option name="sourceFilePath" value="Dockerfile" />
       </settings>
     </deployment>
     <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isPublishEnabled="true" />

@@ -11,7 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{B01D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".k8", ".k8", "{265F078C-DABB-4682-9269-3F3DB34FF3AC}"
 	ProjectSection(SolutionItems) = preProject
-		..\.k8\assignment-all-in-one.yaml = ..\.k8\assignment-all-in-one.yaml
+		..\.k8\aks-all-in-one.yaml = ..\.k8\aks-all-in-one.yaml
+		..\.k8\docker-desktop-all-in-one.yaml = ..\.k8\docker-desktop-all-in-one.yaml
 	EndProjectSection
 EndProject
 Global

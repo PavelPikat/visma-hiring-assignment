@@ -11,7 +11,7 @@ services:
     image: ${DOCKER_REGISTRY-}assignment-service
     build:
       context: ../assignment-service
-      dockerfile: AssignmentService.Server/Dockerfile
+      dockerfile: Dockerfile
     environment:
       ASS_ServiceConfig__DummyPdfOrPngServiceRoot: http://dummy-pdf-or-png:3000
     ports:
