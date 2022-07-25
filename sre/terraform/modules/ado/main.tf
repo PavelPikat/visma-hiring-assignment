@@ -1,4 +1,13 @@
-﻿data "azuredevops_project" "economic" {
+﻿terraform {
+  required_providers {
+    azuredevops = {
+      source  = "microsoft/azuredevops"
+      version = ">=0.1.0"
+    }
+  }
+}
+
+data "azuredevops_project" "economic" {
   name = "e-conomic"
 }
 

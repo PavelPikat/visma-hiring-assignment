@@ -7,11 +7,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.15.0"
     }
-
-    azuredevops = {
-      source = "microsoft/azuredevops"
-      version = "=0.2.2"
-    }
   }
 
   required_version = ">= 1.2.0"
