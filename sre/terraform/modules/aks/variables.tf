@@ -10,7 +10,7 @@ variable "base_name" {
   type = string
 }
 
-variable "acr_name" {
+variable "acr_id" {
   type = string
 }
 

@@ -29,23 +29,23 @@ resource "azurerm_resource_group" "sre" {
 }
 
 module "acr" {
-  source = "./modules/acr"
+  source    = "./modules/acr"
   base_name = local.base_name
-  location = azurerm_resource_group.sre.location
-  rg_name = azurerm_resource_group.sre.name
+  location  = azurerm_resource_group.sre.location
+  rg_name   = azurerm_resource_group.sre.name
 }
 
 module "aks" {
-  source = "./modules/aks"
+  source    = "./modules/aks"
   base_name = local.base_name
-  location = azurerm_resource_group.sre.location
-  rg_name = azurerm_resource_group.sre.name
-  acr_name = module.acr.acr_name
+  location  = azurerm_resource_group.sre.location
+  rg_name   = azurerm_resource_group.sre.name
+  acr_id    = module.acr.acr_id
 }
 
 module "ado" {
-  source = "./modules/ado"
-  acr_name = module.acr.acr_name
+  source      = "./modules/ado"
+  acr_name    = module.acr.acr_name
   acr_rg_name = azurerm_resource_group.sre.name
 }
 
