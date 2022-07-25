@@ -7,6 +7,11 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.15.0"
     }
+
+    azuredevops = {
+      source = "microsoft/azuredevops"
+      version = "=0.2.2"
+    }
   }
 
   required_version = ">= 1.2.0"
@@ -27,3 +32,25 @@ resource "azurerm_resource_group" "sre" {
     Project = "e-conomic sre assignment"
   }
 }
+
+module "acr" {
+  source = "./modules/acr"
+  base_name = local.base_name
+  location = azurerm_resource_group.sre.location
+  rg_name = azurerm_resource_group.sre.name
+}
+
+module "aks" {
+  source = "./modules/aks"
+  base_name = local.base_name
+  location = azurerm_resource_group.sre.location
+  rg_name = azurerm_resource_group.sre.name
+  acr_name = module.acr.acr_name
+}
+
+module "ado" {
+  source = "./modules/ado"
+  acr_name = module.acr.acr_name
+  acr_rg_name = azurerm_resource_group.sre.name
+}
+
