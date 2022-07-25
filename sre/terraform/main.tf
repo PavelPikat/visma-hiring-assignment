@@ -47,5 +47,8 @@ module "ado" {
   source      = "./modules/ado"
   acr_name    = module.acr.acr_name
   acr_rg_name = azurerm_resource_group.sre.name
+  aks_api_url = module.aks.aks_api_url
+  aks_name    = module.aks.aks_name
+  aks_rg_name = azurerm_resource_group.sre.name
 }
 

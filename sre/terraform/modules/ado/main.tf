@@ -27,3 +27,18 @@ resource "azuredevops_serviceendpoint_azurecr" "sre" {
   azurecr_subscription_id   = data.azurerm_subscription.current.subscription_id
   azurecr_subscription_name = data.azurerm_subscription.current.display_name
 }
+
+resource "azuredevops_serviceendpoint_kubernetes" "sre" {
+  project_id            = data.azuredevops_project.economic.id
+  service_endpoint_name = "e-conomic AKS"
+  apiserver_url         = var.aks_api_url
+  authorization_type    = "AzureSubscription"
+
+  azure_subscription {
+    subscription_id   = data.azurerm_subscription.current.subscription_id
+    subscription_name = data.azurerm_subscription.current.display_name
+    tenant_id         = data.azurerm_subscription.current.tenant_id
+    resourcegroup_id  = var.aks_rg_name
+    cluster_name      = var.aks_name
+  }
+}
