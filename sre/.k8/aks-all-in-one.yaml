@@ -82,6 +82,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: assignment-service-entrypoint
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: visma-assignment-service
   namespace: visma-assignment
 spec:
   type: LoadBalancer
