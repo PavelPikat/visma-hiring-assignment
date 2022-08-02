@@ -15,13 +15,20 @@
 - Terraform configuration for AKS, ACR infrastructure on Azure
 - Documentation with VuePress
 
+### Extras
+- Docker-compose with Grafana, Loki and Prometheus for viewing logs and metrics
+
 # Running locally
 ### docker-compose
 From `/sre/.docker`, run `docker-compose up`
 
 docker-compose will build and run everything for you
 
-Browse [http://localhost:3020/1](http://localhost:3020/1)
+- Browse [http://localhost:3020/1](http://localhost:3020/1)
+
+- To view Prometheus metrics and logs in Loki, 
+navigate to [http://localhost:3050/](http://localhost:3050/) to open Grafana
+
 ### Docker Desktop with Kubernetes
 
 1. Build both `dummy-pdf-or-png` and `assignment-service` containers locally so they are available
